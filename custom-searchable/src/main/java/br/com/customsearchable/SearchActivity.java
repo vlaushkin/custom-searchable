@@ -6,6 +6,7 @@ import android.content.SearchRecentSuggestionsProvider;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.speech.RecognizerIntent;
@@ -64,7 +65,7 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         this.setContentView(R.layout.custom_searchable);
-        this.getWindow().setStatusBarColor(getResources().getColor(R.color.textPrimaryColor));
+        setStatusBarColor(getResources().getColor(R.color.textPrimaryColor));
 
         this.query = "";
         this.searchResultList = (RecyclerView) this.findViewById(R.id.cs_result_list);
@@ -91,6 +92,12 @@ public class SearchActivity extends AppCompatActivity {
         implementResultListOnItemClickListener();
 
         getManifestConfig();
+    }
+
+    private void setStatusBarColor(int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            this.getWindow().setStatusBarColor(getResources().getColor(R.color.textPrimaryColor));
+        }
     }
 
     // Receives the intent with the speech-to-text information and sets it to the InputText
